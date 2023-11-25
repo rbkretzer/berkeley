@@ -10,12 +10,13 @@ public class Client implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private String host = "127.0.0.1";
-    private int port = 4500;
+    private String host;
+    private int port;
     private Time time = new Time();
 
-    public Client(int id, int port) {
+    public Client(int id, String host, int port) {
         this.id = id;
+        this.host = host;
         this.port = port;
         System.out.println("Create client with time: " + getTime());
     }

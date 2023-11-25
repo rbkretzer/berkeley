@@ -14,14 +14,12 @@ public class Time implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private LocalTime value;
 
-	// Generates random time
 	public Time() {
 		Random random = new Random();
 		value = LocalTime.of(random.nextInt(23), random.nextInt(59), random.nextInt(59));
 	}
 
-	// Get seconds of time
-	public long getEpochSeconds() {
+	public long toSeconds() {
         return value.toSecondOfDay();
 	}
 

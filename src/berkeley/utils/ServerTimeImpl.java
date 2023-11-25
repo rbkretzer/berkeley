@@ -27,6 +27,10 @@ public class ServerTimeImpl extends UnicastRemoteObject implements ServerTime {
 		return time;
 	}
 
+	public List<Client> getClientsConnected() {
+		return this.clientsConnected;
+	}
+
 	@Override
 	public void setTime(long secondsOfDay) throws RemoteException {
 		time.setValue(LocalTime.ofSecondOfDay(secondsOfDay));

@@ -1,22 +1,42 @@
 package berkeley.utils;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ClientTimeImpl implements ClientTime {
+/**
+ * 
+ * @author Gabriel A. Rodrigues, Leonardo S. Nunes e Rafael B. Kretzer
+ *
+ */
+public class ClientTimeImpl extends UnicastRemoteObject implements ClientTime {
 
-    List<Client> clients = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
+    private Client client;
 
-    @Override
-    public long getTimeDiff(long serverTimeSeconds, int clientId) throws RemoteException {
-        return this.client.getTime().getEpochSeconds() - serverTimeSeconds;
+    public Client getClient() {
+        return client;
+    }
+
+    public ClientTimeImpl(Client client) throws RemoteException {
+        this.client = client;
     }
 
     @Override
-    public void setTime(long timeInSeconds, int clientId) throws RemoteException {
-        this.client.getTime().setValue(LocalTime.ofSecondOfDay(timeInSeconds));;
+    public long getTime() throws RemoteException {
+        return client.getTime().toSeconds();
     }
-    
+
+    @Override
+    public long getTimeDiff(long serverTimeSeconds) throws RemoteException {
+        return client.getTime().toSeconds() - serverTimeSeconds;
+    }
+
+    @Override
+    public void setTime(long timeInSeconds) throws RemoteException {
+        System.out.println("Old value client " + client.getId() + ": " + client.getTime().getValue());
+        client.getTime().setValue(LocalTime.ofSecondOfDay(timeInSeconds));
+        System.out.println("New value " + client.getId() + ": " + client.getTime().getValue());
+    }
+
 }
